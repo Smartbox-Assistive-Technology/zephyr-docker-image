@@ -23,8 +23,8 @@ concurrency:
 env:
   REGISTRY: ghcr.io
   IMAGE_PREFIX: smartbox-assistive-technology
-  # Zephyr SDK toolchains to install (space-separated list or "all")
-  ZSDK_TOOLCHAINS: arm-zephyr-eabi aarch64-zephyr-elf x86_64-zephyr-elf
+  # Zephyr SDK toolchains to install (comma-separated list or "all")
+  ZSDK_TOOLCHAINS: arm-zephyr-eabi,aarch64-zephyr-elf,x86_64-zephyr-elf
 
 jobs:
   build-base:
@@ -105,7 +105,17 @@ jobs:
           type=ref,event=pr
           type=raw,value=latest,enable={{is_default_branch}}
 
-    - name: Build and push CI image
+    - name: Prepare toolchain args
+      id: toolchains
+      run: |
+        if [ "${{ env.ZSDK_TOOLCHAINS }}" = "all" ]; then
+          echo "args=-t all" >> $GITHUB_OUTPUT
+        else
+          TOOLCHAIN_ARGS=$(echo "${{ env.ZSDK_TOOLCHAINS }}" | sed 's/,/ /g' | sed 's/\([^ ]*\)/-t \1/g')
+          echo "args=$TOOLCHAIN_ARGS" >> $GITHUB_OUTPUT
+        fi
+
+    - name: Build and push CI steps.toolchains.outputs.args
       uses: docker/build-push-action@v5
       with:
         context: .
