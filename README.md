@@ -1,5 +1,13 @@
 # Zephyr Docker Images
 
+## Smartbox Changes
+
+**Simplified CI Workflow:** `ci-simple.yml` is a simple CI worfklow that builds the images and publishes them on GHCR. The original workflow has been deleted.
+
+**Automated Upstream Sync:** `sync-upstream-releases.yml` workflow automatically detects and creates PRs for new upstream releases.
+
+---
+
 This repository contains the Dockerfiles for the following images:
 
 - **CI Base Image (_ci-base_):** contains all tools required for CI operation, except the Zephyr
