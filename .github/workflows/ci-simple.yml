@@ -115,7 +115,7 @@ jobs:
           echo "args=$TOOLCHAIN_ARGS" >> $GITHUB_OUTPUT
         fi
 
-    - name: Build and push CI steps.toolchains.outputs.args
+    - name: Build and push CI image
       uses: docker/build-push-action@v5
       with:
         context: .
@@ -125,7 +125,7 @@ jobs:
         labels: ${{ steps.meta.outputs.labels }}
         build-args: |
           BASE_IMAGE=${{ env.REGISTRY }}/${{ env.IMAGE_PREFIX }}/ci-base:${{ needs.build-base.outputs.base-version }}
-          ZSDK_TOOLCHAINS=${{ env.ZSDK_TOOLCHAINS }}
+          ZSDK_TOOLCHAINS=${{ steps.toolchains.outputs.args }}
         cache-from: type=gha
         cache-to: type=gha,mode=max
 
