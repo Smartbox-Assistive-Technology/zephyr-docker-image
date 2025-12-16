@@ -22,7 +22,7 @@ concurrency:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_PREFIX: ${{ github.repository_owner }}
+  IMAGE_PREFIX: smartbox-assistive-technology
   # Zephyr SDK toolchains to install (space-separated list or "all")
   ZSDK_TOOLCHAINS: arm-zephyr-eabi aarch64-zephyr-elf x86_64-zephyr-elf
 
